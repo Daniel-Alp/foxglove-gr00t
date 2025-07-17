@@ -6,28 +6,30 @@
 <robot name="panda" xmlns:xacro="http://www.ros.org/wiki/xacro">
   <link name="panda_link0">
     <visual>
+      <origin xyz="0 0 0" rpy="-1.57 0 0" />
       <geometry>
-        <mesh filename="package://panda/meshes/collision/link0.obj"/>
+        <mesh filename="meshes/collision/link0.obj"/>
       </geometry>
       <material name="panda_white"/>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://panda/meshes/collision/link0.obj"/>
+        <mesh filename="meshes/collision/link0.obj"/>
       </geometry>
       <material name="panda_white"/>
     </collision>
   </link>
   <link name="panda_link1">
     <visual>
+      <origin xyz="0 0 0" rpy="-1.57 0 0" />
       <geometry>
-        <mesh filename="package://panda/meshes/collision/link1.obj"/>
+        <mesh filename="meshes/collision/link1.obj"/>
       </geometry>
       <material name="panda_white"/>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://panda/meshes/collision/link1.obj"/>
+        <mesh filename="meshes/collision/link1.obj"/>
       </geometry>
       <material name="panda_white"/>
     </collision>
@@ -42,14 +44,15 @@
   </joint>
   <link name="panda_link2">
     <visual>
+      <origin xyz="0 0 0" rpy="-1.57 0 0" />
       <geometry>
-        <mesh filename="package://panda/meshes/collision/link2.obj"/>
+        <mesh filename="meshes/collision/link2.obj"/>
       </geometry>
       <material name="panda_white"/>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://panda/meshes/collision/link2.obj"/>
+        <mesh filename="meshes/collision/link2.obj"/>
       </geometry>
       <material name="panda_white"/>
     </collision>
@@ -64,14 +67,15 @@
   </joint>
   <link name="panda_link3">
     <visual>
+      <origin xyz="0 0 0" rpy="-1.57 0 0" />
       <geometry>
-        <mesh filename="package://panda/meshes/collision/link3.obj"/>
+        <mesh filename="meshes/collision/link3.obj"/>
       </geometry>
       <material name="panda_white"/>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://panda/meshes/collision/link3.obj"/>
+        <mesh filename="meshes/collision/link3.obj"/>
       </geometry>
       <material name="panda_white"/>
     </collision>
@@ -86,14 +90,15 @@
   </joint>
   <link name="panda_link4">
     <visual>
+      <origin xyz="0 0 0" rpy="-1.57 0 0" />
       <geometry>
-        <mesh filename="package://panda/meshes/collision/link4.obj"/>
+        <mesh filename="meshes/collision/link4.obj"/>
       </geometry>
       <material name="panda_white"/>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://panda/meshes/collision/link4.obj"/>
+        <mesh filename="meshes/collision/link4.obj"/>
       </geometry>
       <material name="panda_white"/>
     </collision>
@@ -108,14 +113,15 @@
   </joint>
   <link name="panda_link5">
     <visual>
+      <origin xyz="0 0 0" rpy="-1.57 0 0" />
       <geometry>
-        <mesh filename="package://panda/meshes/collision/link5.obj"/>
+        <mesh filename="meshes/collision/link5.obj"/>
       </geometry>
       <material name="panda_white"/>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://panda/meshes/collision/link5.obj"/>
+        <mesh filename="meshes/collision/link5.obj"/>
       </geometry>
       <material name="panda_white"/>
     </collision>
@@ -130,14 +136,15 @@
   </joint>
   <link name="panda_link6">
     <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://panda/meshes/collision/link6.obj"/>
+        <mesh filename="meshes/collision/link6.obj"/>
       </geometry>
       <material name="panda_white"/>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://panda/meshes/collision/link6.obj"/>
+        <mesh filename="meshes/collision/link6.obj"/>
       </geometry>
       <material name="panda_white"/>
     </collision>
@@ -152,14 +159,15 @@
   </joint>
   <link name="panda_link7">
     <visual>
+      <origin xyz="0 0 0" rpy="-1.57 0 0" />
       <geometry>
-        <mesh filename="package://panda/meshes/collision/link7.obj"/>
+        <mesh filename="meshes/collision/link7.obj"/>
       </geometry>
       <material name="panda_white"/>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://panda/meshes/collision/link7.obj"/>
+        <mesh filename="meshes/collision/link7.obj"/>
       </geometry>
       <material name="panda_white"/>
     </collision>
@@ -186,44 +194,46 @@
   </joint>
   <link name="panda_hand">
     <visual>
+      <origin xyz="0 0 0" rpy="-1.57 0 0" />
       <geometry>
-        <mesh filename="package://panda/meshes/collision/hand.obj"/>
+        <mesh filename="meshes/collision/hand.obj"/>
       </geometry>
       <material name="panda_white"/>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://panda/meshes/collision/hand.obj"/>
+        <mesh filename="meshes/collision/hand.obj"/>
       </geometry>
       <material name="panda_white"/>
     </collision>
   </link>
   <link name="panda_leftfinger">
     <visual>
+      <origin xyz="0 0 0" rpy="-1.57 0 0" />
       <geometry>
-        <mesh filename="package://panda/meshes/collision/finger.obj"/>
+        <mesh filename="meshes/collision/finger.obj"/>
       </geometry>
       <material name="panda_white"/>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://panda/meshes/collision/finger.obj"/>
+        <mesh filename="meshes/collision/finger.obj"/>
       </geometry>
       <material name="panda_white"/>
     </collision>
   </link>
   <link name="panda_rightfinger">
     <visual>
-      <origin rpy="0 0 3.14159265359" xyz="0 0 0"/>
+      <origin rpy="-1.57 0 3.14159265359" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://panda/meshes/collision/finger.obj"/>
+        <mesh filename="meshes/collision/finger.obj"/>
       </geometry>
       <material name="panda_white"/>
     </visual>
     <collision>
       <origin rpy="0 0 3.14159265359" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://panda/meshes/collision/finger.obj"/>
+        <mesh filename="meshes/collision/finger.obj"/>
       </geometry>
       <material name="panda_white"/>
     </collision>
