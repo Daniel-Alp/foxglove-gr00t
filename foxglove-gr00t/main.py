@@ -1,11 +1,15 @@
 import json
-import foxglove
 import numpy as np
 import os
 import pandas as pd
 
+from foxglove_schemas_protobuf.Vector3_pb2 import Vector3
+from foxglove_schemas_protobuf.Quaternion_pb2 import Quaternion
+from foxglove_schemas_protobuf.FrameTransform_pb2 import FrameTransform
+from foxglove_schemas_protobuf.FrameTransforms_pb2 import FrameTransforms
+from google.protobuf.timestamp_pb2 import Timestamp
+from mcap_protobuf.writer import Writer
 from urchin import URDF
-from foxglove.schemas import FrameTransform, FrameTransforms, Vector3, Quaternion, Timestamp
 
 def rot_matrix_to_quat(R):
     trace = R[0, 0] + R[1, 1] + R[2, 2]
@@ -47,12 +51,13 @@ def convert(data_root: str, chunk: str, episode: str) -> None:
 
     joint_pos_dict = {}
     
-    with foxglove.open_mcap(f"{os.path.basename(data_root)}-{chunk}-{episode}-tf.mcap"):
+    with open(f"{os.path.basename(data_root)}-{chunk}-{episode}-tf.mcap", "wb") as stream, Writer(stream) as writer:
         for _, row in data_frame.iterrows():
             sec_whole, sec_dec = divmod(row["timestamp"], 1)
-
             sec = int(sec_whole)
             nsec = int(sec_dec * 1_000_000_000)
+
+            timestamp_ns = int(row["timestamp"] * 1_000_000_000)
 
             state = row["observation.state"]
             for i, joint in enumerate(urdf.joints):
@@ -64,7 +69,7 @@ def convert(data_root: str, chunk: str, episode: str) -> None:
             transforms = []
             transforms.append(
                 FrameTransform(
-                    timestamp       = Timestamp(sec=sec, nsec=nsec),
+                    timestamp       = Timestamp(seconds=sec, nanos=nsec),
                     parent_frame_id = "world",
                     child_frame_id  = "base",
                     translation     = Vector3(x=0.0, y=0.0, z=0.0),
@@ -81,7 +86,7 @@ def convert(data_root: str, chunk: str, episode: str) -> None:
                 quat = rot_matrix_to_quat(T_local[:3, :3])
                 transforms.append(
                     FrameTransform(
-                        timestamp       = Timestamp(sec=sec, nsec=nsec),
+                        timestamp       = Timestamp(seconds=sec, nanos=nsec),
                         parent_frame_id = joint.parent,
                         child_frame_id  = joint.child,
                         translation     = Vector3(x=float(trans[0]), y=float(trans[1]), z=float(trans[2])),
@@ -89,10 +94,12 @@ def convert(data_root: str, chunk: str, episode: str) -> None:
                     )
                 )
 
-            foxglove.log(
-                topic    = "/tf",
-                message  = FrameTransforms(transforms=transforms)
-            )
+                writer.write_message(
+                    topic        = "/tf",
+                    message      = FrameTransforms(transforms=transforms),
+                    log_time     = timestamp_ns,
+                    publish_time = timestamp_ns
+                )
 
 if __name__ == "__main__":
     data_root = "/home/alp/single_panda_gripper-TurnOffSinkFaucet"
