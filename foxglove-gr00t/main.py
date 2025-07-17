@@ -60,10 +60,8 @@ def convert(data_root: str, chunk: str, episode: str) -> None:
             timestamp_ns = int(row["timestamp"] * 1_000_000_000)
 
             state = row["observation.state"]
-            for i, joint in enumerate(urdf.joints):
-                if i >= joint_pos_idx_end - joint_pos_idx_start:
-                    continue
-                joint_pos_dict[joint.name] = state[joint_pos_idx_start + i]
+            for i, joint_pos in enumerate(state[joint_pos_idx_start:joint_pos_idx_end]):
+                joint_pos_dict[f"panda_joint{i+1}"] = joint_pos
             fk_poses = urdf.link_fk(cfg=joint_pos_dict)
 
             transforms = []
