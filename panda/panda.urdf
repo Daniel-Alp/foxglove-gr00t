@@ -15,12 +15,12 @@
   <link name="panda_link0">
     <visual>
       <geometry>
-        <mesh filename="./meshes/visual/link0.dae"/>
+        <mesh filename="meshes/visual/link0.dae"/>
       </geometry>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="./meshes/collision/link0.stl"/>
+        <mesh filename="meshes/collision/link0.stl"/>
       </geometry>
     </collision>
   </link>
@@ -55,12 +55,12 @@
   <link name="panda_link1">
     <visual>
       <geometry>
-        <mesh filename="./meshes/visual/link1.dae"/>
+        <mesh filename="meshes/visual/link1.dae"/>
       </geometry>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="./meshes/collision/link1.stl"/>
+        <mesh filename="meshes/collision/link1.stl"/>
       </geometry>
     </collision>
   </link>
@@ -104,12 +104,12 @@
   <link name="panda_link2">
     <visual>
       <geometry>
-        <mesh filename="./meshes/visual/link2.dae"/>
+        <mesh filename="meshes/visual/link2.dae"/>
       </geometry>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="./meshes/collision/link2.stl"/>
+        <mesh filename="meshes/collision/link2.stl"/>
       </geometry>
     </collision>
   </link>
@@ -153,12 +153,12 @@
   <link name="panda_link3">
     <visual>
       <geometry>
-        <mesh filename="./meshes/visual/link3.dae"/>
+        <mesh filename="meshes/visual/link3.dae"/>
       </geometry>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="./meshes/collision/link3.stl"/>
+        <mesh filename="meshes/collision/link3.stl"/>
       </geometry>
     </collision>
   </link>
@@ -202,12 +202,12 @@
   <link name="panda_link4">
     <visual>
       <geometry>
-        <mesh filename="./meshes/visual/link4.dae"/>
+        <mesh filename="meshes/visual/link4.dae"/>
       </geometry>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="./meshes/collision/link4.stl"/>
+        <mesh filename="meshes/collision/link4.stl"/>
       </geometry>
     </collision>
   </link>
@@ -251,12 +251,12 @@
   <link name="panda_link5">
     <visual>
       <geometry>
-        <mesh filename="./meshes/visual/link5.dae"/>
+        <mesh filename="meshes/visual/link5.dae"/>
       </geometry>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="./meshes/collision/link5.stl"/>
+        <mesh filename="meshes/collision/link5.stl"/>
       </geometry>
     </collision>
   </link>
@@ -318,12 +318,12 @@
   <link name="panda_link6">
     <visual>
       <geometry>
-        <mesh filename="./meshes/visual/link6.dae"/>
+        <mesh filename="meshes/visual/link6.dae"/>
       </geometry>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="./meshes/collision/link6.stl"/>
+        <mesh filename="meshes/collision/link6.stl"/>
       </geometry>
     </collision>
   </link>
@@ -367,12 +367,12 @@
   <link name="panda_link7">
     <visual>
       <geometry>
-        <mesh filename="./meshes/visual/link7.dae"/>
+        <mesh filename="meshes/visual/link7.dae"/>
       </geometry>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="./meshes/collision/link7.stl"/>
+        <mesh filename="meshes/collision/link7.stl"/>
       </geometry>
     </collision>
   </link>
