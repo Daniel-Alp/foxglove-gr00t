@@ -1,3 +1,4 @@
+import argparse
 import json
 import numpy as np
 import os
@@ -93,7 +94,6 @@ def convert(data_root: str, chunk: str, episode: str) -> None:
             for joint in urdf.joints:
                 T_parent = fk_poses[urdf.link_map[joint.parent]]
                 T_child = fk_poses[urdf.link_map[joint.child]]
-                # local transform from parent->child
                 T_local = np.linalg.inv(T_parent) @ T_child
                 trans = T_local[:3, 3]
                 quat = rot_matrix_to_quat(T_local[:3, :3])
@@ -115,7 +115,9 @@ def convert(data_root: str, chunk: str, episode: str) -> None:
                 )
 
 if __name__ == "__main__":
-    data_root = "/home/alp/single_panda_gripper-TurnOffSinkFaucet"
-    chunk = "000"
-    episode = "000000"
-    convert(data_root, chunk, episode)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("data_root", help="root directory of dataset")
+    parser.add_argument("chunk", help="chunk number")
+    parser.add_argument("episode", help="episode number")
+    args = parser.parse_args()
+    convert(args.data_root, args.chunk, args.episode)
