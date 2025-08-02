@@ -11,6 +11,8 @@ from google.protobuf.timestamp_pb2 import Timestamp
 from mcap_protobuf.writer import Writer
 from urchin import URDF
 
+from itertools import chain
+
 def rot_matrix_to_quat(R):
     trace = R[0, 0] + R[1, 1] + R[2, 2]
     if trace > 0:
@@ -40,16 +42,21 @@ def rot_matrix_to_quat(R):
     return np.array([x, y, z, w], dtype=float)
 
 def convert(data_root: str, chunk: str, episode: str) -> None:
-    urdf = URDF.load("./panda/panda.urdf")
+    urdf = URDF.load("./fr3_franka_hand/fr3_franka_hand.urdf")
     data_frame = pd.read_parquet(f'{data_root}/data/chunk-{chunk}/episode_{episode}.parquet', engine="pyarrow")
     
     modality = json.load(open(f'{data_root}/meta/modality.json'))
     state_desc = modality["state"]
-    joint_pos_idxs = state_desc["joint_position"]
-    joint_pos_idx_start = joint_pos_idxs["start"]
-    joint_pos_idx_end   = joint_pos_idxs["end"]
+    
+    joint_pos_idx_start = state_desc["joint_position"]["start"]
+    joint_pos_idx_end = state_desc["joint_position"]["end"]
+    # the arm joints' names in the order they are in observation.state (see below)
+    joint_names = [f"fr3_joint{i}" for i in range(1, 8)]
 
-    joint_pos_dict = {}
+    gripper_pos_idx_start = state_desc["gripper_qpos"]["start"]
+    gripper_pos_idx_end = state_desc["gripper_qpos"]["end"]
+    # the gripper joints' names in the order they are in observations.state (see below)
+    gripper_names = ["fr3_finger_joint1", "fr3_finger_joint2"]
     
     with open(f"{os.path.basename(data_root)}-{chunk}-{episode}-tf.mcap", "wb") as stream, Writer(stream) as writer:
         for _, row in data_frame.iterrows():
@@ -60,8 +67,16 @@ def convert(data_root: str, chunk: str, episode: str) -> None:
             timestamp_ns = int(row["timestamp"] * 1_000_000_000)
 
             state = row["observation.state"]
-            for i, joint_pos in enumerate(state[joint_pos_idx_start:joint_pos_idx_end]):
-                joint_pos_dict[f"panda_joint{i+1}"] = joint_pos
+            
+            joint_pos_values = state[joint_pos_idx_start:joint_pos_idx_end]
+
+            gripper_pos_values = state[gripper_pos_idx_start:gripper_pos_idx_end]
+
+            # dict(zip(list1, list2)) uses list1 as keys and list2 as vals
+            # chain(zip(...), zip(...)) is used to create a single iterable
+            joint_pos_dict = dict(chain(zip(joint_names, joint_pos_values), 
+                                        zip(gripper_names, gripper_pos_values)))
+
             fk_poses = urdf.link_fk(cfg=joint_pos_dict)
 
             transforms = []
