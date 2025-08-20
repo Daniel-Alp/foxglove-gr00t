@@ -58,8 +58,11 @@ def convert(data_root: str, chunk: str, episode: str) -> None:
     gripper_pos_idx_end = state_desc["gripper_qpos"]["end"]
     # the gripper joints' names in the order they are in observations.state (see below)
     gripper_names = ["fr3_finger_joint1", "fr3_finger_joint2"]
+
+    joint_vel_idx_start = state_desc["joint_velocity"]["start"]
+    joint_vel_idx_end = state_desc["joint_velocity"]["end"]
     
-    with open(f"{os.path.basename(data_root)}-{chunk}-{episode}-tf.mcap", "wb") as stream, Writer(stream) as writer:
+    with open(f"{os.path.basename(data_root)}-{chunk}-{episode}.mcap", "wb") as stream, Writer(stream) as writer:
         for _, row in data_frame.iterrows():
             sec_whole, sec_dec = divmod(row["timestamp"], 1)
             sec = int(sec_whole)
@@ -110,6 +113,15 @@ def convert(data_root: str, chunk: str, episode: str) -> None:
                 writer.write_message(
                     topic        = "/tf",
                     message      = FrameTransforms(transforms=transforms),
+                    log_time     = timestamp_ns,
+                    publish_time = timestamp_ns
+                )
+
+            joint_vel_values = state[joint_vel_idx_start:joint_vel_idx_end]
+            for i,v in enumerate(joint_vel_values):
+                writer.write_message(
+                    topic        = f"/arm/joint_velocities/joint{i}",
+                    message      = Vector3(x=0, y=0, z=v),
                     log_time     = timestamp_ns,
                     publish_time = timestamp_ns
                 )
