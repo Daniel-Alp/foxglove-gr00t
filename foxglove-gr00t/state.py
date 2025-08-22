@@ -1,14 +1,13 @@
 import argparse
 import json
 import numpy as np
-import os
 import pandas as pd
-
 from foxglove_schemas_protobuf.Vector3_pb2 import Vector3
 from foxglove_schemas_protobuf.Quaternion_pb2 import Quaternion
 from foxglove_schemas_protobuf.FrameTransform_pb2 import FrameTransform
 from foxglove_schemas_protobuf.FrameTransforms_pb2 import FrameTransforms
 from google.protobuf.timestamp_pb2 import Timestamp
+from pathlib import Path
 from mcap_protobuf.writer import Writer
 from urchin import URDF
 
@@ -42,7 +41,7 @@ def rot_matrix_to_quat(R):
         z = 0.25 * s
     return np.array([x, y, z, w], dtype=float)
 
-def convert(data_root: str, chunk: str, episode: str) -> None:
+def convert(data_root: Path, chunk: str, episode: str) -> None:
     urdf = URDF.load("./fr3_franka_hand/fr3_franka_hand.urdf")
     data_frame = pd.read_parquet(f'{data_root}/data/chunk-{chunk}/episode_{episode}.parquet', engine="pyarrow")
     
@@ -62,7 +61,7 @@ def convert(data_root: str, chunk: str, episode: str) -> None:
     joint_vel_idx_start = state_desc["joint_velocity"]["start"]
     joint_vel_idx_end = state_desc["joint_velocity"]["end"]
     
-    with open(f"{os.path.basename(data_root)}-{chunk}-{episode}.mcap", "wb") as stream, Writer(stream) as writer:
+    with open(f"{data_root.name}-{chunk}-{episode}-state.mcap", "wb") as stream, Writer(stream) as writer:
         for _, row in data_frame.iterrows():
             sec_whole, sec_dec = divmod(row["timestamp"], 1)
             sec = int(sec_whole)
@@ -128,7 +127,7 @@ def convert(data_root: str, chunk: str, episode: str) -> None:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("data_root", help="root directory of dataset")
+    parser.add_argument("data_root", type=Path, help="root directory of dataset")
     parser.add_argument("chunk", help="chunk number")
     parser.add_argument("episode", help="episode number")
     args = parser.parse_args()

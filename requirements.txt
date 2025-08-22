@@ -1,3 +1,4 @@
+av==15.0.0
 decorator==5.2.1
 foxglove-schemas-protobuf==0.3.0
 freetype-py==2.5.1

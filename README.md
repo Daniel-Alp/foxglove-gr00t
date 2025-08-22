@@ -6,8 +6,8 @@ git sparse-checkout set single_panda_gripper.CloseDoubleDoor
 git checkout main
 ```
 This script works for any dataset in the [Robot Arm Kitchen Manipulation](https://huggingface.co/datasets/nvidia/PhysicalAI-Robotics-GR00T-X-Embodiment-Sim#robot-arm-kitchen-manipulation-72k-trajectories) folder.
-# Converting to MCAP
-Clone the repository and `cd` into it
+# Converting State to MCAP
+Clone this repository and `cd` into it
 ```
 git clone https://github.com/Daniel-Alp/foxglove-gr00t
 cd foxglove-gr00t
@@ -22,11 +22,32 @@ Install requirements
 ```
 python3 -m pip install -r requirements.txt
 ```
-Run the script
+example of converting state
 ```
-python3 foxglove-gr00t/main.py data_root chunk episode
+python3 foxglove-gr00t/state.py ~/PhysicalAI-Robotics-GR00T-X-Embodiment-Sim/single_panda_gripper.CloseDoubleDoor 000 000000
 ```
-For example
+# Converting Camera to MCAP
+In addition to the dependencies in requriements.txt to convert camera to MCAP install ffmpeg
+</br>
+on MacOS
 ```
-python3 foxglove-gr00t/main.py ~/PhysicalAI-Robotics-GR00T-X-Embodiment-Sim/single_panda_gripper.CloseDoubleDoor 000 000000
+brew install pkg-config ffmpeg
+```
+on Linux
+```
+sudo apt-get update
+sudo apt-get install -qq --no-install-recommends \
+  pkg-config \
+  ffmpeg \
+  libavutil-dev \
+  libavcodec-dev \
+  libavformat-dev \
+  libswscale-dev \
+  libswresample-dev \
+  libavfilter-dev \
+  libavdevice-dev
+```
+example of converting camera
+```
+python3 foxglove-gr00t/camera.py ~/PhysicalAI-Robotics-GR00T-X-Embodiment-Sim/single_panda_gripper.CloseDoubleDoor 000 000000
 ```
