@@ -12,9 +12,16 @@ Clone this repository and `cd` into it
 git clone https://github.com/Daniel-Alp/foxglove-gr00t
 cd foxglove-gr00t
 ```
-Install virtualenv, create a virtual environment, and activate it
+Install virtualenv, create a virtual environment, and activate it </br>
+on MacOS
 ```
 python3 -m pip install virtualenv
+```
+on Linux
+```
+sudo apt install python3-virtualenv
+```
+```
 virtualenv venv 
 source venv/bin/activate
 ```
