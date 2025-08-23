@@ -104,8 +104,8 @@ def convert(data_root: Path, chunk: str, episode: str) -> None:
                         timestamp       = Timestamp(seconds=sec, nanos=nsec),
                         parent_frame_id = joint.parent,
                         child_frame_id  = joint.child,
-                        translation     = Vector3(x=float(trans[0]), y=float(trans[1]), z=float(trans[2])),
-                        rotation        = Quaternion(x=float(quat[0]), y=float(quat[1]), z=float(quat[2]), w=float(quat[3]))
+                        translation     = Vector3(x=trans[0], y=trans[1], z=trans[2]),
+                        rotation        = Quaternion(x=quat[0], y=quat[1], z=quat[2], w=quat[3])
                     )
                 )
 
