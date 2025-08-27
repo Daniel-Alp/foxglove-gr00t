@@ -51,7 +51,7 @@ def convert(data_root: Path, chunk: str, episode: str) -> None:
     joint_pos_idx_start = state_desc["joint_position"]["start"]
     joint_pos_idx_end = state_desc["joint_position"]["end"]
     # the arm joints' names in the order they are in observation.state (see below)
-    joint_names = [f"fr3_joint{i}" for i in range(1, 8)]
+    joint_names = [f"fr3_joint{i}" for i in range(1, 7)]
 
     gripper_pos_idx_start = state_desc["gripper_qpos"]["start"]
     gripper_pos_idx_end = state_desc["gripper_qpos"]["end"]
