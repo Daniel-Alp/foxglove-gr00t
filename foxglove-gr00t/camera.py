@@ -30,42 +30,30 @@ def mp4_to_mcap(input_path: Path, output_path: Path, topic: str, frame_id: str):
         str(temp_output_path)
     ]
     subprocess.run(cmd, check=True)
-
+    
     with av.open(temp_output_path, "r") as container, open(output_path, "wb") as stream, Writer(stream) as writer:
         video_stream = container.streams.video[0]
         codec_context = video_stream.codec_context
 
         format = "h264" if codec_name == "h264" else "h265"
 
-        frame_packets = []
-        current_timestamp = None
-
         for packet in container.demux(video_stream):
-            if packet.dts is None:
+            if packet.pts is None:
                 continue
-
-            if current_timestamp is None:
-                current_timestamp = packet.pts
-            packet_timestamp = packet.pts 
-
-            if current_timestamp != packet_timestamp:
-                data = b''.join(bytes(p) for p in frame_packets)
-                timestamp_ns = int(current_timestamp * 1_000_000_000 * packet.time_base.numerator / packet.time_base.denominator)
-                message = CompressedVideo(
-                    timestamp   = Timestamp(seconds=timestamp_ns // 1_000_000_000, nanos=timestamp_ns % 1_000_000_000),
-                    data        = data,
-                    format      = format
-                )
-                writer.write_message(
-                    topic        = topic,
-                    message      = message,
-                    publish_time = timestamp_ns,
-                    log_time     = timestamp_ns
-                )
-                frame_packets = [packet]
-                current_timestamp = packet_timestamp
-            else:
-                frame_packets.append(packet)
+            data = bytes(packet)
+            # assumes that 1 packet corresponds to 1 frame https://ffmpeg.org/doxygen/2.0/structAVPacket.html
+            timestamp_ns = int(packet.pts * 1_000_000_000 * packet.time_base.numerator / packet.time_base.denominator)
+            message = CompressedVideo(
+                timestamp   = Timestamp(seconds=timestamp_ns // 1_000_000_000, nanos=timestamp_ns % 1_000_000_000),
+                data        = data,
+                format      = format
+            )
+            writer.write_message(
+                topic        = topic,
+                message      = message,
+                publish_time = timestamp_ns,
+                log_time     = timestamp_ns
+            )
 
     temp_output_path.unlink()
 
